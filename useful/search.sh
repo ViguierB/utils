@@ -21,16 +21,11 @@ function getFiles {
     cd $whereiam
 }
 
-pwd=$(pwd);
-files=$(getFiles $pwd)
-for script in $files; do
-    linkName="$HOME/bin/$(basename $script)";
-    
-    if [ -f $linkName ] && [ $(readlink $linkName) == $script ]; then
-	rm $linkName;
+for a in $(getFiles $1); do
+    res=$(cat $a | grep --color=always -n $2)
+    if [ ! -z "$res" ]; then
+        echo "On file $a";
+        echo "$res";
+        echo;
     fi
-    ln -s $script $linkName
-    echo "$linkName --> $script"
 done
-
-echo "done"
