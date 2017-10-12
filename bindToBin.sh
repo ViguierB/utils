@@ -1,5 +1,8 @@
 #!/bin/bash
 
+true=1;
+false=0;
+
 function getFiles {
     dirName=$1;
     first=0;
@@ -23,6 +26,16 @@ function getFiles {
     cd $whereiam
 }
 
+function ask {
+    msg=$1;
+    echo -n "$msg (Y/n): ";
+    read -t 25 res;
+    case $res in
+        n|N) return $false;;
+        *)   return $true;;
+    esac;
+}
+
 pwd=$(pwd);
 files=$(getFiles $pwd)
 for script in $files; do
@@ -30,9 +43,17 @@ for script in $files; do
     
     if [ -f $linkName ] && [ $(readlink $linkName) == $script ]; then
 	rm $linkName;
+    elif [ -f $linkName ]; then
+        ask "$linkName exists, Overwrite ?";
+        if [ $? == $true ]; then
+            rm $linkName;
+        fi
     fi
-    ln -s $script $linkName
-    echo "$linkName --> $script"
+    if [ ! -f $linkName ]; then
+	ln -s $script $linkName
+	echo "$linkName --> $script"
+    fi
+    
 done
 
 echo "done"
