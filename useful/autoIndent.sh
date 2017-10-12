@@ -50,17 +50,17 @@ for elem in ${@:2}; do
     filesList=$(find $1 -iname \*$elem);
     for file in $filesList; do
         tmpFile=$(getRandomName);
-        cp $file $tmpFile;
-        echo -n "" > $file;
-        while IFS='' read -r line || [[ -n "$line" ]]; do
-            echo "$line" >> $file;
-        done < $tmpFile
-        rm $tmpFile;
-        (emacs -nw -q --batch $file --eval "(mark-whole-buffer)" --eval "(indent-region (point-min) (point-max) nil)" --eval "(save-buffer)" --kill > /dev/null 2> /dev/null; 
+        (cp $file $tmpFile;
+            echo -n "" > $file;
+            while IFS='' read -r line || [[ -n "$line" ]]; do
+		echo "$line" >> $file;
+            done < $tmpFile
+            rm $tmpFile;
+            emacs -nw -q --batch $file --eval "(mark-whole-buffer)" --eval "(indent-region (point-min) (point-max) nil)" --eval "(save-buffer)" --kill > /dev/null 2> /dev/null; 
             if [ -f $file'~' ]; then
-		rm $file'~';
+                rm $file'~';
             fi
-            printf "\t$file $(loadColor 1 32)Ok$(loadColor 0)\n";) &
+            printf "\t$file $(loadColor 1 32)Ok$(loadColor 0)\n"; ) &
         taskList+=($!);
     done 
     for task in ${taskList[@]}; do
