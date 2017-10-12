@@ -29,7 +29,7 @@ function loadColor {
 
 function getRandomName {
     rand=$(cat /dev/urandom | head -c 32 | $(if [ $(uname) == "Darwin" ]; then echo md5; else echo sha256sum; fi) | base64)
-    echo "$rand";
+    echo "/tmp/$rand";
 }
 
 if ! emacs --version > /dev/null 2> /dev/null; then
