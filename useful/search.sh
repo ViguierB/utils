@@ -11,17 +11,17 @@ default='0';
 
 function loadColor {
     if [ -z $1 ] || ! $(exit $isatty); then
-	    return;
+	return;
     fi
     res='\e[';
     first=$true;
     for color in "$@"; do
-	    if [ $first == $false ]; then
-	        res+=';';
-	    else
-	        first=$false;
-	    fi
- 	    res+=$color;
+	if [ $first == $false ]; then
+	    res+=';';
+	else
+	    first=$false;
+	fi
+ 	res+=$color;
     done
     res+='m';
     echo -en "$res";
