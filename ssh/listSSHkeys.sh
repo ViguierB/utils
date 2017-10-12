@@ -62,8 +62,8 @@ function ask {
     read -t 25 res;
     case $res in
 	n|N) return $false;;
-	*)   return $true;;
-    esac;
+*)   return $true;;
+esac;
 }
 
 ##BEGINING
@@ -82,8 +82,8 @@ if [ $? != $RETURN_SUCCESS ]; then
 fi
 
 length=${#authFile[*]};
-loadColor $bold;
-for (( i=2; i<=$(( $length -1 )); i+=3 )); do
-    echo ${authFile[$i]};
-done
-loadColor $default;
+    loadColor $bold;
+    for (( i=2; i<=$(( $length -1 )); i+=3 )); do
+	echo ${authFile[$i]};
+    done
+    loadColor $default;

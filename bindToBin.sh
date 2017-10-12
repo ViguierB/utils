@@ -4,7 +4,7 @@ function getFiles {
     dirName=$1;
     first=0;
     if [ -z $2 ]; then
-       first=1;
+	first=1;
     fi
 
     whereiam=$(pwd);

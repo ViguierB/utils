@@ -59,8 +59,8 @@ function ask {
     read -t 25 res;
     case $res in
 	n|N) return $false;;
-	*)   return $true;;
-    esac;
+*)   return $true;;
+esac;
 }
 
 ##BEGINING
