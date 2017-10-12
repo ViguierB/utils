@@ -44,6 +44,7 @@ if [ -z $2 ] || [ ! -d $1 ]; then
     exit 84;
 fi
 
+taskList=();
 for elem in ${@:2}; do
     printf "$(loadColor 1)Indent all $elem...$(loadColor 0)\n";
     filesList=$(find $1 -iname \*$elem);
@@ -55,11 +56,15 @@ for elem in ${@:2}; do
             echo "$line" >> $file;
         done < $tmpFile
         rm $tmpFile;
-        emacs -nw -q --batch $file --eval "(mark-whole-buffer)" --eval "(indent-region (point-min) (point-max) nil)" --eval "(save-buffer)" --kill > /dev/null 2> /dev/null; 
-        if [ -f $file'~' ]; then
-            rm $file'~';
-        fi
-        printf "\t$file $(loadColor 1 32)Ok$(loadColor 0)\n";
+        (emacs -nw -q --batch $file --eval "(mark-whole-buffer)" --eval "(indent-region (point-min) (point-max) nil)" --eval "(save-buffer)" --kill > /dev/null 2> /dev/null; 
+            if [ -f $file'~' ]; then
+		rm $file'~';
+            fi
+            printf "\t$file $(loadColor 1 32)Ok$(loadColor 0)\n";) &
+        taskList+=($!);
     done 
+    for task in ${taskList[@]}; do
+        wait $task;
+    done
     printf "$(loadColor 1 32)Done$(loadColor 0)\n";
 done
