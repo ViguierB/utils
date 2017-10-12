@@ -9,9 +9,11 @@ function getFiles {
 
     whereiam=$(pwd);
     cd $dirName;
-    for d in $(ls -a -I .. -I . -I .git); do
+    for d in $(ls -A); do
         if [ -d $d ]; then
-            echo $(getFiles $d true);
+	    if [ $d != '.git' ]; then
+		echo $(getFiles $d true);
+	    fi
         else
             if $(exit $first); then
                 echo "$(pwd)/$d";
