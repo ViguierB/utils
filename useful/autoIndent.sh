@@ -29,7 +29,7 @@ function loadColor {
 
 if ! emacs --version > /dev/null 2> /dev/null; then
     echo "Please install emacs."
-    echo 84;
+    exit 84;
 fi
 
 
