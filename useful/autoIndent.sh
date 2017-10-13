@@ -28,7 +28,7 @@ function loadColor {
 }
 
 function getRandomName {
-    rand=$(cat /dev/urandom | head -c 32 | $(if [ $(uname) == "Darwin" ]; then echo md5; else echo sha256sum; fi) | base64)
+    rand=$(cat /dev/urandom | head -c 32 | $(if [ $(uname) == "Darwin" ]; then echo md5; else echo sha256sum; fi) | base64 | tr -cd '[[:alnum:]]._-')
     echo "/tmp/$rand";
 }
 
