@@ -37,7 +37,7 @@ function loadColor {
  	res+=$color;
     done
     res+='m';
-    echo -en $res;
+    printf $res;
 }
 
 function printError {
@@ -78,7 +78,9 @@ request+='if [ $? != 0 ]; then';
 request+=" echo $false;";
 request+='else';
 request+=' file=($(cat ~/.ssh/authorized_keys));';
-request+=' rm ~/.ssh/authorized_keys; touch ~/.ssh/authorized_keys;';
+request+=' rm ~/.ssh/authorized_keys;'
+request+=' touch ~/.ssh/authorized_keys;';
+request+=' chmod 600 ~/.ssh/authorized_keys;';
 request+=' len=${#file[*]};';
 request+=' for (( i=0; i<=$(( $len -1 )); i+=3 )); do';
 request+='  if [ $key != ${file[$i+2]} ]; then';

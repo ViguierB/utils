@@ -37,7 +37,7 @@ function loadColor {
  	res+=$color;
     done
     res+='m';
-    echo -en $res;
+    printf $res;
 }
 
 function printError {
@@ -105,6 +105,10 @@ if [ $isBasicPath == $true ] && [ ! -f $keyPath ]; then
 fi
 
 request="key='$(cat $keyPath)';";
+request+='if [ ! -f ~/.ssh/authorized_keys ]; then';
+request+=' touch ~/.ssh/authorized_keys;';
+request+=' chmod 600 ~/.ssh/authorized_keys;';
+request+='fi;';
 request+='cat ~/.ssh/authorized_keys | grep "$key" > /dev/null;';
 request+='if [ $? != 0 ]; then';
 request+=' echo $key >> ~/.ssh/authorized_keys;';

@@ -40,7 +40,7 @@ function loadColor {
  	res+=$color;
     done
     res+='m';
-    echo -en $res;
+    printf $res;
 }
 
 function printError {
