@@ -39,7 +39,7 @@ esac;
 pwd=$(pwd);
 files=$(getFiles $pwd)
 for script in $files; do
-    linkName="$HOME/bin/$(basename $script)";
+    linkName="$HOME/.bin/$(basename $script)";
     
     if [ -f $linkName ] && [ $(readlink $linkName) == $script ]; then
 	rm $linkName;
